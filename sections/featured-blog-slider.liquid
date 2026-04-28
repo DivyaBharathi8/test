@@ -28,6 +28,7 @@
   class="featured-blog-slider"
   id="FeaturedBlogSlider-{{ section.id }}"
   data-featured-blog-slider
+  data-slide-total="{{ slide_count }}"
   aria-roledescription="carousel"
   aria-label="{{ section.settings.heading_accessibility | escape }}"
 >
@@ -116,12 +117,15 @@
               00/00
             {% endif %}
           </div>
-          <div class="featured-blog-slider__progress" aria-hidden="true">
+          <div
+            class="featured-blog-slider__progress"
+            {% if slide_count < 2 %}aria-hidden="true"{% endif %}
+          >
             <div
               class="featured-blog-slider__progress-fill"
               data-slider-progress
               {% if slide_count > 0 %}
-                style="width: calc(100% / {{ slide_count }});"
+                style="width: calc(100% * 1 / {{ slide_count }});"
               {% endif %}
             ></div>
           </div>

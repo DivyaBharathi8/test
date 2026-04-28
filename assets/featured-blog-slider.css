@@ -181,7 +181,8 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 0%;
+  /* JS sets width + --fbs-progress-fill so the gold fill tracks the active slide */
+  width: var(--fbs-progress-fill, 0%);
   min-width: 0;
   background: linear-gradient(180deg, #ffe787 0%, #f6d368 50%, #ffcf55 100%);
   border-radius: 999px;
