@@ -1,0 +1,187 @@
+{% comment %}
+  Featured Blog Slider — blog post metafields (namespace custom):
+  - large_image — image/file (hero)
+  - small_image — image/file (thumbnail)
+  Copy `sections/featured-blog-slider.liquid` and `assets/featured-blog-slider.*` into your theme,
+  then add the section to a template (e.g. homepage).
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400&family=Lora:wght@400&family=Cormorant+Garamond:wght@400&display=swap" rel="stylesheet" />
+
+{{ 'featured-blog-slider.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'featured-blog-slider.js' | asset_url }}" defer></script>
+
+{% liquid
+  assign blog_ref = section.settings.blog
+  assign article_limit = section.settings.article_limit
+  assign slide_count = 0
+  if blog_ref != blank
+    for article in blog_ref.articles limit: article_limit
+      assign slide_count = slide_count | plus: 1
+    endfor
+  endif
+%}
+
+<div
+  class="featured-blog-slider"
+  id="FeaturedBlogSlider-{{ section.id }}"
+  data-featured-blog-slider
+  aria-roledescription="carousel"
+  aria-label="{{ section.settings.heading_accessibility | escape }}"
+>
+  <div class="featured-blog-slider__stage">
+    {% if blog_ref == blank %}
+      <p class="featured-blog-slider__empty">Select a blog in the section settings.</p>
+    {% else %}
+      <div class="featured-blog-slider__slides" data-slider-slides>
+        {% assign idx = 0 %}
+        {% for article in blog_ref.articles limit: article_limit %}
+          {% assign large_media = article.metafields.custom.large_image.value %}
+          {% assign small_media = article.metafields.custom.small_image.value %}
+          {% liquid
+            assign body_text = article.excerpt | strip_html
+            if body_text == blank
+              assign body_text = article.content | strip_html | truncate: 500
+            endif
+          %}
+
+          <article
+            class="featured-blog-slider__slide{% if idx == 0 %} is-active{% endif %}"
+            data-slide-index="{{ idx }}"
+            aria-hidden="{% if idx == 0 %}false{% else %}true{% endif %}"
+          >
+            {% if large_media != blank %}
+              {{
+                large_media
+                | image_url: width: 1600
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'featured-blog-slider__img--large',
+                  widths: '564, 1128, 1600',
+                  sizes: '(min-width: 1400px) 564px, 42vw',
+                  alt: article.title
+              }}
+            {% elsif article.image %}
+              {{
+                article.image
+                | image_url: width: 1600
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'featured-blog-slider__img--large',
+                  widths: '564, 1128, 1600',
+                  sizes: '(min-width: 1400px) 564px, 42vw',
+                  alt: article.title
+              }}
+            {% endif %}
+
+            {% if small_media != blank %}
+              {{
+                small_media
+                | image_url: width: 600
+                | image_tag:
+                  loading: 'lazy',
+                  class: 'featured-blog-slider__img--small',
+                  widths: '220, 440',
+                  sizes: '220px',
+                  alt: ''
+              }}
+            {% endif %}
+
+            <h2 class="featured-blog-slider__title font-aesthetic">{{ article.title | escape }}</h2>
+
+            {% if body_text != blank %}
+              <p class="featured-blog-slider__body">{{ body_text | escape }}</p>
+            {% endif %}
+
+            <a class="featured-blog-slider__cta" href="{{ article.url }}">
+              {{ section.settings.read_more_label | escape }}
+            </a>
+          </article>
+          {% assign idx = idx | plus: 1 %}
+        {% endfor %}
+      </div>
+
+      <div class="featured-blog-slider__nav" {% if slide_count < 2 %}hidden{% endif %}>
+        <div class="featured-blog-slider__counter-wrap">
+          <div class="featured-blog-slider__counter font-aesthetic" data-slider-counter>
+            {% if slide_count > 0 %}
+              {% if slide_count < 10 %}
+                01/0{{ slide_count }}
+              {% else %}
+                01/{{ slide_count }}
+              {% endif %}
+            {% else %}
+              00/00
+            {% endif %}
+          </div>
+          <div class="featured-blog-slider__progress" aria-hidden="true">
+            <div class="featured-blog-slider__progress-fill" data-slider-progress></div>
+          </div>
+        </div>
+        <div class="featured-blog-slider__arrows">
+          <button
+            type="button"
+            class="featured-blog-slider__arrow featured-blog-slider__arrow--prev"
+            data-slider-prev
+            aria-label="Previous slide"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 6 L9 12 L15 18" /></svg>
+          </button>
+          <button
+            type="button"
+            class="featured-blog-slider__arrow featured-blog-slider__arrow--next"
+            data-slider-next
+            aria-label="Next slide"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15 6 L9 12 L15 18" /></svg>
+          </button>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured blog slider",
+  "tag": "section",
+  "class": "section-featured-blog-slider",
+  "settings": [
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog",
+      "info": "Choose the blog that powers this slider (for example “Featured Blog Slider”). Assign Large Image and Small Image on each post."
+    },
+    {
+      "type": "range",
+      "id": "article_limit",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 6,
+      "label": "Maximum posts"
+    },
+    {
+      "type": "text",
+      "id": "read_more_label",
+      "label": "Button label",
+      "default": "Read More"
+    },
+    {
+      "type": "text",
+      "id": "heading_accessibility",
+      "label": "Accessible name for carousel",
+      "default": "Featured blog posts",
+      "info": "Announced to screen readers."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured blog slider"
+    }
+  ]
+}
+{% endschema %}
