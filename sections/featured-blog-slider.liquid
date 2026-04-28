@@ -73,8 +73,8 @@
                 | image_tag:
                   loading: 'lazy',
                   class: 'featured-blog-slider__img--large',
-                  widths: '564, 1128, 1600',
-                  sizes: '(min-width: 1400px) 564px, 42vw',
+                  widths: '400, 600, 800, 1000, 1200, 1600',
+                  sizes: '(max-width: 991px) 50vw, (min-width: 1400px) 564px, 42vw',
                   alt: article.title
               }}
             {% elsif article.image %}
@@ -84,8 +84,8 @@
                 | image_tag:
                   loading: 'lazy',
                   class: 'featured-blog-slider__img--large',
-                  widths: '564, 1128, 1600',
-                  sizes: '(min-width: 1400px) 564px, 42vw',
+                  widths: '400, 600, 800, 1000, 1200, 1600',
+                  sizes: '(max-width: 991px) 50vw, (min-width: 1400px) 564px, 42vw',
                   alt: article.title
               }}
             {% endif %}
@@ -97,8 +97,8 @@
                 | image_tag:
                   loading: 'lazy',
                   class: 'featured-blog-slider__img--small',
-                  widths: '220, 440',
-                  sizes: '220px',
+                  widths: '200, 400, 600',
+                  sizes: '(max-width: 991px) 50vw, 220px',
                   alt: ''
               }}
             {% endif %}
