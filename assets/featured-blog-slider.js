@@ -18,8 +18,9 @@
   function setProgress(progressEl, root, index, total) {
     if (!progressEl || !root) return;
     var pct = total > 0 ? ((index + 1) / total) * 100 : 0;
+    /* Inline width on fill; root --fbs-progress-pct is separate from yellow fill color in CSS */
     progressEl.style.width = pct + "%";
-    root.style.setProperty("--fbs-progress-fill", pct + "%");
+    root.style.setProperty("--fbs-progress-pct", pct + "%");
     progressEl.setAttribute("aria-valuenow", String(index + 1));
     progressEl.setAttribute("aria-valuemax", String(Math.max(total, 1)));
   }

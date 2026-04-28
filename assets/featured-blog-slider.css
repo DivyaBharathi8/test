@@ -5,6 +5,10 @@
   --fbs-btn-bg: #d5b584;
   --fbs-btn-text: #241f16;
   --fbs-track: rgba(255, 255, 255, 0.16);
+  /* Slider nav: muted track + yellow segment (width set by JS as --fbs-progress-pct) */
+  --fbs-progress-track: rgba(46, 74, 72, 0.88);
+  --fbs-progress-bar: #ffe787;
+  --fbs-arrow-muted: rgba(90, 105, 103, 0.72);
   /* Thumbnail column: keep text column to the right so headline never sits on the small image */
   --fbs-edge: 100px;
   --fbs-thumb-w: 220px;
@@ -140,7 +144,7 @@
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   gap: 40px;
   box-sizing: border-box;
 }
@@ -163,30 +167,31 @@
   word-wrap: break-word;
 }
 
-/* Full-width track under the counter; gold fill shows slide progress */
+/* Full-width track: unfilled = muted gray-green; filled segment = yellow (width from JS) */
 .featured-blog-slider__progress {
   align-self: stretch;
   width: 100%;
-  min-height: 2px;
-  height: 2px;
+  min-height: 3px;
+  height: 3px;
   position: relative;
-  background: rgba(252, 246, 237, 0.35);
+  background: var(--fbs-progress-track);
   overflow: hidden;
   border-radius: 999px;
 }
 
 .featured-blog-slider__progress-fill {
   height: 100%;
-  min-height: 2px;
+  min-height: 3px;
   position: absolute;
   left: 0;
   top: 0;
-  /* JS sets width + --fbs-progress-fill so the gold fill tracks the active slide */
-  width: var(--fbs-progress-fill, 0%);
+  /* Use --fbs-progress-pct from JS for width (never reuse same var as fill color) */
+  width: var(--fbs-progress-pct, 0%);
   min-width: 0;
-  background: linear-gradient(180deg, #ffe787 0%, #f6d368 50%, #ffcf55 100%);
+  background: var(--fbs-progress-bar);
   border-radius: 999px;
   transition: width 0.35s ease;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
 }
 
 .featured-blog-slider__arrows {
@@ -202,34 +207,47 @@
   height: 40px;
   border-radius: 50%;
   border: none;
-  background: var(--fbs-cream);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   flex-shrink: 0;
+  transition: background 0.2s ease, filter 0.15s ease;
 }
 
-.featured-blog-slider__arrow:hover {
+.featured-blog-slider__arrow--prev {
+  background: var(--fbs-arrow-muted);
+}
+
+.featured-blog-slider__arrow--next {
+  background: var(--fbs-cream);
+}
+
+.featured-blog-slider__arrow--prev:hover {
+  background: rgba(110, 125, 123, 0.55);
+}
+
+.featured-blog-slider__arrow--next:hover {
   filter: brightness(0.97);
 }
 
 .featured-blog-slider__arrow svg {
   width: 18px;
   height: 18px;
-  stroke: var(--fbs-bg);
   stroke-width: 2;
   fill: none;
 }
 
-/* Previous = chevron left; next = chevron right */
+/* Previous = chevron left (muted circle + light icon); next = chevron right (cream circle) */
 .featured-blog-slider__arrow--prev svg {
   transform: none;
+  stroke: rgba(252, 246, 237, 0.9);
 }
 
 .featured-blog-slider__arrow--next svg {
   transform: rotate(180deg);
+  stroke: var(--fbs-bg);
 }
 
 @media (max-width: 1400px) {
