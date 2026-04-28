@@ -22,6 +22,10 @@
       assign slide_count = slide_count | plus: 1
     endfor
   endif
+  assign initial_progress = 0
+  if slide_count > 0
+    assign initial_progress = 1 | times: 100.0 | divided_by: slide_count | round: 1
+  endif
 %}
 
 <div
@@ -31,6 +35,15 @@
   data-slide-total="{{ slide_count }}"
   aria-roledescription="carousel"
   aria-label="{{ section.settings.heading_accessibility | escape }}"
+  style="
+    --fbs-bg: {{ section.settings.background_color }};
+    --fbs-gold: {{ section.settings.gold_color }};
+    --fbs-cream: {{ section.settings.body_text_color }};
+    --fbs-btn-bg: {{ section.settings.button_bg }};
+    --fbs-btn-text: {{ section.settings.button_text_color }};
+    --fbs-progress-track: {{ section.settings.progress_track_color }};
+    --fbs-progress-fill: {{ section.settings.progress_fill_color }};
+  "
 >
   <div class="featured-blog-slider__stage">
     {% if blog_ref == blank %}
@@ -117,18 +130,17 @@
               00/00
             {% endif %}
           </div>
-          <div
+          <progress
+            id="FeaturedBlogSlider-{{ section.id }}-progress"
             class="featured-blog-slider__progress"
+            data-slider-progress
+            max="100"
+            value="{{ initial_progress }}"
             {% if slide_count < 2 %}aria-hidden="true"{% endif %}
+            aria-label="Slide 1 of {{ slide_count }}"
           >
-            <div
-              class="featured-blog-slider__progress-fill"
-              data-slider-progress
-              {% if slide_count > 0 %}
-                style="width: calc(100% * 1 / {{ slide_count }});"
-              {% endif %}
-            ></div>
-          </div>
+            {{- initial_progress | round: 0 -}}%
+          </progress>
         </div>
         <div class="featured-blog-slider__arrows">
           <button
@@ -186,6 +198,52 @@
       "label": "Accessible name for carousel",
       "default": "Featured blog posts",
       "info": "Announced to screen readers."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#112c30"
+    },
+    {
+      "type": "color",
+      "id": "gold_color",
+      "label": "Headline (gold)",
+      "default": "#ffe787"
+    },
+    {
+      "type": "color",
+      "id": "body_text_color",
+      "label": "Body / nav counter text",
+      "default": "#fcf6ed"
+    },
+    {
+      "type": "color",
+      "id": "button_bg",
+      "label": "Button background",
+      "default": "#d5b584"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text",
+      "default": "#241f16"
+    },
+    {
+      "type": "color",
+      "id": "progress_track_color",
+      "label": "Progress bar track (unfilled)",
+      "default": "rgba(46, 74, 72, 0.88)"
+    },
+    {
+      "type": "color",
+      "id": "progress_fill_color",
+      "label": "Progress bar fill (yellow)",
+      "default": "#ffe787"
     }
   ],
   "presets": [

@@ -5,9 +5,9 @@
   --fbs-btn-bg: #d5b584;
   --fbs-btn-text: #241f16;
   --fbs-track: rgba(255, 255, 255, 0.16);
-  /* Slider nav: muted track + yellow segment (width set by JS as --fbs-progress-pct) */
+  /* Theme overrides via section inline style (same pattern as kbb-editorial) */
   --fbs-progress-track: rgba(46, 74, 72, 0.88);
-  --fbs-progress-bar: #ffe787;
+  --fbs-progress-fill: #ffe787;
   --fbs-arrow-muted: rgba(90, 105, 103, 0.72);
   /* Thumbnail column: keep text column to the right so headline never sits on the small image */
   --fbs-edge: 100px;
@@ -167,31 +167,37 @@
   word-wrap: break-word;
 }
 
-/* Full-width track: unfilled = muted gray-green; filled segment = yellow (width from JS) */
-.featured-blog-slider__progress {
+/* Native <progress>: track + fill (aligned with kbb-editorial __progress styles) */
+.featured-blog-slider progress.featured-blog-slider__progress {
   align-self: stretch;
   width: 100%;
-  min-height: 3px;
+  min-width: 4.25rem;
   height: 3px;
-  position: relative;
+  min-height: 3px;
+  border: 0;
+  border-radius: 999px;
+  appearance: none;
+  -webkit-appearance: none;
+  vertical-align: top;
   background: var(--fbs-progress-track);
-  overflow: hidden;
+}
+
+.featured-blog-slider progress.featured-blog-slider__progress::-webkit-progress-bar {
+  background: var(--fbs-progress-track);
   border-radius: 999px;
 }
 
-.featured-blog-slider__progress-fill {
-  height: 100%;
-  min-height: 3px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  /* Use --fbs-progress-pct from JS for width (never reuse same var as fill color) */
-  width: var(--fbs-progress-pct, 0%);
-  min-width: 0;
-  background: var(--fbs-progress-bar);
+.featured-blog-slider progress.featured-blog-slider__progress::-webkit-progress-value {
+  background: var(--fbs-progress-fill);
   border-radius: 999px;
-  transition: width 0.35s ease;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  transition: width 0.45s ease;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+.featured-blog-slider progress.featured-blog-slider__progress::-moz-progress-bar {
+  background: var(--fbs-progress-fill);
+  border-radius: 999px;
+  transition: width 0.45s ease;
 }
 
 .featured-blog-slider__arrows {
@@ -228,8 +234,13 @@
   background: rgba(110, 125, 123, 0.55);
 }
 
-.featured-blog-slider__arrow--next:hover {
+.featured-blog-slider__arrow--next:hover:not(:disabled) {
   filter: brightness(0.97);
+}
+
+.featured-blog-slider__arrow:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .featured-blog-slider__arrow svg {

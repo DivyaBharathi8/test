@@ -1,10 +1,17 @@
 /**
- * Featured blog slider — counter + progressive bar fill (Shopify theme asset).
- * Fill width = (current slide index + 1) / total × 100%.
+ * Featured blog slider — counter + native <progress> (matches kbb-editorial pattern).
+ * Fill value 0–100: last slide => 100; else ((index + 1) / total) * 100.
+ * Prev/next are linear (no wrap); disabled at first/last slide.
  */
 (function () {
   function pad2(n) {
     return n < 10 ? "0" + n : String(n);
+  }
+
+  function progressValue(index, total) {
+    if (total < 1) return 0;
+    if (index === total - 1) return 100;
+    return Math.round(((index + 1) / total) * 100 * 10) / 10;
   }
 
   function getTotalSlides(root, slidesHost) {
@@ -15,14 +22,12 @@
     return isNaN(fromAttr) ? 0 : fromAttr;
   }
 
-  function setProgress(progressEl, root, index, total) {
-    if (!progressEl || !root) return;
-    var pct = total > 0 ? ((index + 1) / total) * 100 : 0;
-    /* Inline width on fill; root --fbs-progress-pct is separate from yellow fill color in CSS */
-    progressEl.style.width = pct + "%";
-    root.style.setProperty("--fbs-progress-pct", pct + "%");
-    progressEl.setAttribute("aria-valuenow", String(index + 1));
-    progressEl.setAttribute("aria-valuemax", String(Math.max(total, 1)));
+  function setProgress(progressEl, index, total) {
+    if (!progressEl) return;
+    var pct = progressValue(index, total);
+    progressEl.value = pct;
+    progressEl.textContent = String(Math.round(pct)) + "%";
+    progressEl.setAttribute("aria-label", "Slide " + (index + 1) + " of " + total);
   }
 
   function initSlider(root) {
@@ -32,22 +37,9 @@
     var slides = slidesHost.querySelectorAll(".featured-blog-slider__slide");
     var total = getTotalSlides(root, slidesHost);
     var counterEl = root.querySelector("[data-slider-counter]");
-    var progressEl =
-      root.querySelector("[data-slider-progress]") ||
-      root.querySelector(".featured-blog-slider__progress-fill");
-    var progressTrack = root.querySelector(".featured-blog-slider__progress");
+    var progressEl = root.querySelector("[data-slider-progress]");
     var btnPrev = root.querySelector("[data-slider-prev]");
     var btnNext = root.querySelector("[data-slider-next]");
-
-    if (progressTrack && total > 0) {
-      progressTrack.setAttribute("role", "progressbar");
-      progressTrack.setAttribute("aria-valuemin", "1");
-      progressTrack.setAttribute("aria-valuemax", String(total));
-    }
-
-    if (progressEl) {
-      progressEl.setAttribute("role", "presentation");
-    }
 
     var index = 0;
     for (var s = 0; s < slides.length; s++) {
@@ -66,18 +58,16 @@
       if (counterEl) {
         counterEl.textContent = pad2(index + 1) + "/" + pad2(total);
       }
-      setProgress(progressEl, root, index, total);
-      if (progressTrack && total > 0) {
-        progressTrack.setAttribute("aria-valuenow", String(index + 1));
-        progressTrack.setAttribute("aria-valuetext", "Slide " + (index + 1) + " of " + total);
-      }
-      if (btnPrev) btnPrev.disabled = total <= 1;
-      if (btnNext) btnNext.disabled = total <= 1;
+      setProgress(progressEl, index, total);
+      if (btnPrev) btnPrev.disabled = total <= 1 || index === 0;
+      if (btnNext) btnNext.disabled = total <= 1 || index === total - 1;
     }
 
     function go(delta) {
       if (total < 1) return;
-      index = (index + delta + total) % total;
+      var nextIndex = index + delta;
+      if (nextIndex < 0 || nextIndex > total - 1) return;
+      index = nextIndex;
       updateUI();
     }
 
