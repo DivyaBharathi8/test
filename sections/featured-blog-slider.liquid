@@ -117,7 +117,13 @@
             {% endif %}
           </div>
           <div class="featured-blog-slider__progress" aria-hidden="true">
-            <div class="featured-blog-slider__progress-fill" data-slider-progress></div>
+            <div
+              class="featured-blog-slider__progress-fill"
+              data-slider-progress
+              {% if slide_count > 0 %}
+                style="width: calc(100% / {{ slide_count }});"
+              {% endif %}
+            ></div>
           </div>
         </div>
         <div class="featured-blog-slider__arrows">

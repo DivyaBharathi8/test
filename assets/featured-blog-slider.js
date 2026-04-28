@@ -9,7 +9,9 @@
 
     var slides = slidesHost.querySelectorAll(".featured-blog-slider__slide");
     var counterEl = root.querySelector("[data-slider-counter]");
-    var progressEl = root.querySelector("[data-slider-progress]");
+    var progressEl =
+      root.querySelector("[data-slider-progress]") ||
+      root.querySelector(".featured-blog-slider__progress-fill");
     var btnPrev = root.querySelector("[data-slider-prev]");
     var btnNext = root.querySelector("[data-slider-next]");
 
