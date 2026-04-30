@@ -1,0 +1,231 @@
+<!--
+  Wix: Add Embed → Custom Code (HTML), paste the <style> + <div> block from <body>,
+  or use "Website" mode and paste full page if allowed. Set embed to full width; height auto / stretch.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .wellness-pricing-wrap {
+      box-sizing: border-box;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #2d2d2d;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 8px;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wellness-pricing-wrap *,
+    .wellness-pricing-wrap *::before,
+    .wellness-pricing-wrap *::after {
+      box-sizing: border-box;
+    }
+
+    .wellness-pricing-wrap .pricing-header {
+      display: grid;
+      grid-template-columns: minmax(88px, 0.85fr) minmax(88px, 0.85fr) minmax(0, 2.3fr);
+      gap: 0;
+      background: #eef5d4;
+      border-radius: 10px 10px 0 0;
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      border: 1px solid #d1d1d1;
+      border-bottom: none;
+    }
+
+    .wellness-pricing-wrap .pricing-panel {
+      border: 1px solid #d1d1d1;
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .wellness-pricing-wrap .pricing-row {
+      display: grid;
+      grid-template-columns: minmax(88px, 0.85fr) minmax(88px, 0.85fr) minmax(0, 2.3fr);
+      gap: 0;
+      border-top: 1px solid #d1d1d1;
+      font-size: 0.9375rem;
+      line-height: 1.45;
+    }
+
+    .wellness-pricing-wrap .pricing-row:first-child {
+      border-top: none;
+    }
+
+    .wellness-pricing-wrap .cell {
+      padding: 16px 18px;
+      border-right: 1px solid #d1d1d1;
+      text-align: left;
+    }
+
+    .wellness-pricing-wrap .cell:last-child {
+      border-right: none;
+    }
+
+    .wellness-pricing-wrap .cell .mobile-label {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .wellness-pricing-wrap .pricing-header {
+        display: none;
+      }
+
+      .wellness-pricing-wrap .pricing-panel {
+        border-radius: 10px;
+        border: 1px solid #d1d1d1;
+      }
+
+      .wellness-pricing-wrap .pricing-row {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+          "dur price"
+          "therapies therapies";
+        border-top: none;
+        border-bottom: 1px solid #d1d1d1;
+      }
+
+      .wellness-pricing-wrap .pricing-row:first-child {
+        border-top: none;
+      }
+
+      .wellness-pricing-wrap .pricing-row:last-child {
+        border-bottom: none;
+      }
+
+      .wellness-pricing-wrap .cell-dur {
+        grid-area: dur;
+        background: #eef5d4;
+        border-right: 1px solid #d1d1d1;
+        border-bottom: 1px solid #d1d1d1;
+      }
+
+      .wellness-pricing-wrap .cell-price {
+        grid-area: price;
+        background: #eef5d4;
+        border-right: none;
+        border-bottom: 1px solid #d1d1d1;
+      }
+
+      .wellness-pricing-wrap .cell-therapies {
+        grid-area: therapies;
+        border-right: none;
+        padding-top: 14px;
+        padding-bottom: 18px;
+      }
+
+      .wellness-pricing-wrap .cell .mobile-label {
+        display: block;
+        font-weight: 700;
+        font-size: 0.8rem;
+        color: #1a1a1a;
+        margin-bottom: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wellness-pricing-wrap" role="region" aria-label="Wellness treatment packages pricing">
+    <div class="pricing-header">
+      <div>Duration</div>
+      <div>Price</div>
+      <div>Key Therapies Included</div>
+    </div>
+    <div class="pricing-panel">
+      <div class="pricing-row">
+        <div class="cell cell-dur">
+          <span class="mobile-label">Duration</span>
+          3 Days
+        </div>
+        <div class="cell cell-price">
+          <span class="mobile-label">Price</span>
+          ₹3,400
+        </div>
+        <div class="cell cell-therapies">
+          <span class="mobile-label">Key Therapies Included</span>
+          Full Body Massage + Steam, Mud Therapy
+        </div>
+      </div>
+      <div class="pricing-row">
+        <div class="cell cell-dur">
+          <span class="mobile-label">Duration</span>
+          5 Days
+        </div>
+        <div class="cell cell-price">
+          <span class="mobile-label">Price</span>
+          ₹5,000
+        </div>
+        <div class="cell cell-therapies">
+          <span class="mobile-label">Key Therapies Included</span>
+          Massage + Steam, Mud Therapy, Deluxe Underwater Massage (deep water massage)
+        </div>
+      </div>
+      <div class="pricing-row">
+        <div class="cell cell-dur">
+          <span class="mobile-label">Duration</span>
+          7 Days
+        </div>
+        <div class="cell cell-price">
+          <span class="mobile-label">Price</span>
+          ₹7,000
+        </div>
+        <div class="cell cell-therapies">
+          <span class="mobile-label">Key Therapies Included</span>
+          Massage + Steam, Mud Therapy, Deluxe Underwater Massage (deep water massage), Sauna (heat therapy)
+        </div>
+      </div>
+      <div class="pricing-row">
+        <div class="cell cell-dur">
+          <span class="mobile-label">Duration</span>
+          10 Days
+        </div>
+        <div class="cell cell-price">
+          <span class="mobile-label">Price</span>
+          ₹10,000
+        </div>
+        <div class="cell cell-therapies">
+          <span class="mobile-label">Key Therapies Included</span>
+          Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara (oil drip relaxation)
+        </div>
+      </div>
+      <div class="pricing-row">
+        <div class="cell cell-dur">
+          <span class="mobile-label">Duration</span>
+          14 Days
+        </div>
+        <div class="cell cell-price">
+          <span class="mobile-label">Price</span>
+          ₹13,000
+        </div>
+        <div class="cell cell-therapies">
+          <span class="mobile-label">Key Therapies Included</span>
+          Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara, Abhyangam (herbal oil massage)
+        </div>
+      </div>
+      <div class="pricing-row">
+        <div class="cell cell-dur">
+          <span class="mobile-label">Duration</span>
+          21 Days
+        </div>
+        <div class="cell cell-price">
+          <span class="mobile-label">Price</span>
+          ₹18,000
+        </div>
+        <div class="cell cell-therapies">
+          <span class="mobile-label">Key Therapies Included</span>
+          Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara, Abhyangam, Hot Stone (heat relaxation therapy)
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
