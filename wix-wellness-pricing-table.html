@@ -1,0 +1,163 @@
+<!--
+  Wix: Embed → Custom Code → paste everything from <style> through the closing .wellness-pricing-wrap </div>.
+  Header strip + bordered panel match the reference; shared grid columns align row headings with cells.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .wellness-pricing-wrap {
+      box-sizing: border-box;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #1a1a1a;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 8px;
+      -webkit-font-smoothing: antialiased;
+
+      /* Same column tracks on header & rows — headings line up with content below */
+      --pricing-pad-x: 22px;
+      --pricing-cols: minmax(76px, 0.78fr) minmax(88px, 0.92fr) minmax(200px, 2.85fr);
+    }
+
+    .wellness-pricing-wrap *,
+    .wellness-pricing-wrap *::before,
+    .wellness-pricing-wrap *::after {
+      box-sizing: border-box;
+    }
+
+    .wellness-pricing-wrap .pricing-scroll {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .wellness-pricing-wrap .pricing-scroll-inner {
+      min-width: 520px;
+    }
+
+    /* Top header bar — pale lime, rounded, labels left-aligned (not centered in column) */
+    .wellness-pricing-wrap .head-strip {
+      display: grid;
+      grid-template-columns: var(--pricing-cols);
+      align-items: start;
+      column-gap: 0;
+      background: #edf3d3;
+      border-radius: 10px;
+      padding: 14px var(--pricing-pad-x);
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      color: #111;
+      text-align: left;
+    }
+
+    .wellness-pricing-wrap .head-strip > span {
+      display: block;
+      padding-right: 10px;
+      min-width: 0;
+    }
+
+    .wellness-pricing-wrap .head-strip > span:nth-child(2),
+    .wellness-pricing-wrap .head-strip > span:nth-child(3) {
+      padding-left: 14px;
+      border-left: 1px solid rgba(115, 141, 115, 0.35);
+    }
+
+    /* Main panel — white, muted green border */
+    .wellness-pricing-wrap .body-panel {
+      border: 1px solid #738d73;
+      border-radius: 12px;
+      background: #fff;
+      padding: 18px var(--pricing-pad-x) 22px;
+    }
+
+    .wellness-pricing-wrap .data-row {
+      display: grid;
+      grid-template-columns: var(--pricing-cols);
+      align-items: start;
+      column-gap: 0;
+      text-align: left;
+      font-size: 0.9375rem;
+      line-height: 1.45;
+      color: #2d2d2d;
+      border-bottom: 1px solid #d8d8d8;
+      padding: 16px 0;
+    }
+
+    .wellness-pricing-wrap .data-row:last-child {
+      border-bottom: none;
+      padding-bottom: 4px;
+    }
+
+    .wellness-pricing-wrap .data-row:first-child {
+      padding-top: 4px;
+    }
+
+    .wellness-pricing-wrap .cell {
+      padding-right: 10px;
+      vertical-align: top;
+      min-width: 0;
+    }
+
+    /* Inset vertical guides — gray, short of panel top/bottom via row padding above */
+    .wellness-pricing-wrap .cell:nth-child(2),
+    .wellness-pricing-wrap .cell:nth-child(3) {
+      padding-left: 14px;
+      border-left: 1px solid #c6c6c6;
+    }
+  </style>
+</head>
+<body>
+  <div class="wellness-pricing-wrap" role="region" aria-label="Wellness treatment packages pricing">
+    <div class="pricing-scroll">
+      <div class="pricing-scroll-inner">
+        <div class="head-strip">
+          <span>Duration</span>
+          <span>Price</span>
+          <span>Key Therapies Included</span>
+        </div>
+
+        <div class="body-panel">
+          <div class="data-row">
+            <div class="cell">3 Days</div>
+            <div class="cell">₹3,400</div>
+            <div class="cell">Full Body Massage + Steam, Mud Therapy</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">5 Days</div>
+            <div class="cell">₹5,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage (deep water massage)</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">7 Days</div>
+            <div class="cell">₹7,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage (deep water massage), Sauna (heat therapy)</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">10 Days</div>
+            <div class="cell">₹10,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara (oil drip relaxation)</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">14 Days</div>
+            <div class="cell">₹13,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara, Abhyangam (herbal oil massage)</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">21 Days</div>
+            <div class="cell">₹18,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara, Abhyangam, Hot Stone (heat relaxation therapy)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
