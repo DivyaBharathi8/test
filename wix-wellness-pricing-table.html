@@ -1,7 +1,6 @@
 <!--
-  Wix: Embed → Custom Code → paste <style> + markup inside <body> below.
-  One semantic table = Duration, Price, Key Therapies headers always on the same row.
-  vertical-align: top keeps all columns aligned to the top when text wraps.
+  Wix: Embed → Custom Code → paste everything from <style> through the closing .wellness-pricing-wrap </div>.
+  Header strip + bordered panel match the reference; shared grid columns align row headings with cells.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -20,115 +19,144 @@
       margin: 0 auto;
       padding: 8px;
       -webkit-font-smoothing: antialiased;
+
+      /* Same column tracks on header & rows — headings line up with content below */
+      --pricing-pad-x: 22px;
+      --pricing-cols: minmax(76px, 0.78fr) minmax(88px, 0.92fr) minmax(200px, 2.85fr);
     }
+
     .wellness-pricing-wrap *,
     .wellness-pricing-wrap *::before,
     .wellness-pricing-wrap *::after {
       box-sizing: border-box;
     }
 
-    /* Horizontal scroll on small screens keeps the same table layout as desktop */
-    .wellness-pricing-wrap .table-scroll {
+    .wellness-pricing-wrap .pricing-scroll {
       width: 100%;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      border: 1px solid #e0e0e0;
-      border-radius: 10px;
-      background: #fff;
     }
 
-    .wellness-pricing-wrap .pricing-table {
-      width: 100%;
+    .wellness-pricing-wrap .pricing-scroll-inner {
       min-width: 520px;
-      border-collapse: collapse;
-      border-style: hidden;
-      box-shadow: 0 0 0 1px #e0e0e0;
+    }
+
+    /* Top header bar — pale lime, rounded, labels left-aligned (not centered in column) */
+    .wellness-pricing-wrap .head-strip {
+      display: grid;
+      grid-template-columns: var(--pricing-cols);
+      align-items: start;
+      column-gap: 0;
+      background: #edf3d3;
       border-radius: 10px;
-      table-layout: fixed;
-      font-size: 0.9375rem;
-      line-height: 1.45;
-    }
-
-    .wellness-pricing-wrap .pricing-table th,
-    .wellness-pricing-wrap .pricing-table td {
-      text-align: left;
-      vertical-align: top;
-      padding: 14px 16px;
-      border: 1px solid #e0e0e0;
-      font-weight: 400;
-    }
-
-    .wellness-pricing-wrap .pricing-table thead th {
-      background: #eff4d2;
+      padding: 14px var(--pricing-pad-x);
+      margin-bottom: 12px;
       font-weight: 700;
       font-size: 0.95rem;
-      color: #000;
+      line-height: 1.35;
+      color: #111;
+      text-align: left;
     }
 
-    .wellness-pricing-wrap .pricing-table tbody td {
+    .wellness-pricing-wrap .head-strip > span {
+      display: block;
+      padding-right: 10px;
+      min-width: 0;
+    }
+
+    .wellness-pricing-wrap .head-strip > span:nth-child(2),
+    .wellness-pricing-wrap .head-strip > span:nth-child(3) {
+      padding-left: 14px;
+      border-left: 1px solid rgba(115, 141, 115, 0.35);
+    }
+
+    /* Main panel — white, muted green border */
+    .wellness-pricing-wrap .body-panel {
+      border: 1px solid #738d73;
+      border-radius: 12px;
       background: #fff;
+      padding: 18px var(--pricing-pad-x) 22px;
+    }
+
+    .wellness-pricing-wrap .data-row {
+      display: grid;
+      grid-template-columns: var(--pricing-cols);
+      align-items: start;
+      column-gap: 0;
+      text-align: left;
+      font-size: 0.9375rem;
+      line-height: 1.45;
       color: #2d2d2d;
+      border-bottom: 1px solid #d8d8d8;
+      padding: 16px 0;
     }
 
-    .wellness-pricing-wrap .col-duration {
-      width: 12%;
-      min-width: 72px;
+    .wellness-pricing-wrap .data-row:last-child {
+      border-bottom: none;
+      padding-bottom: 4px;
     }
 
-    .wellness-pricing-wrap .col-price {
-      width: 14%;
-      min-width: 88px;
+    .wellness-pricing-wrap .data-row:first-child {
+      padding-top: 4px;
     }
 
-    .wellness-pricing-wrap .col-therapies {
-      width: 74%;
+    .wellness-pricing-wrap .cell {
+      padding-right: 10px;
+      vertical-align: top;
+      min-width: 0;
+    }
+
+    /* Inset vertical guides — gray, short of panel top/bottom via row padding above */
+    .wellness-pricing-wrap .cell:nth-child(2),
+    .wellness-pricing-wrap .cell:nth-child(3) {
+      padding-left: 14px;
+      border-left: 1px solid #c6c6c6;
     }
   </style>
 </head>
 <body>
   <div class="wellness-pricing-wrap" role="region" aria-label="Wellness treatment packages pricing">
-    <div class="table-scroll">
-      <table class="pricing-table">
-        <thead>
-          <tr>
-            <th class="col-duration" scope="col">Duration</th>
-            <th class="col-price" scope="col">Price</th>
-            <th class="col-therapies" scope="col">Key Therapies Included</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="col-duration">3 Days</td>
-            <td class="col-price">₹3,400</td>
-            <td class="col-therapies">Full Body Massage + Steam, Mud Therapy</td>
-          </tr>
-          <tr>
-            <td class="col-duration">5 Days</td>
-            <td class="col-price">₹5,000</td>
-            <td class="col-therapies">Massage + Steam, Mud Therapy, Deluxe Underwater Massage (deep water massage)</td>
-          </tr>
-          <tr>
-            <td class="col-duration">7 Days</td>
-            <td class="col-price">₹7,000</td>
-            <td class="col-therapies">Massage + Steam, Mud Therapy, Deluxe Underwater Massage (deep water massage), Sauna (heat therapy)</td>
-          </tr>
-          <tr>
-            <td class="col-duration">10 Days</td>
-            <td class="col-price">₹10,000</td>
-            <td class="col-therapies">Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara (oil drip relaxation)</td>
-          </tr>
-          <tr>
-            <td class="col-duration">14 Days</td>
-            <td class="col-price">₹13,000</td>
-            <td class="col-therapies">Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara, Abhyangam (herbal oil massage)</td>
-          </tr>
-          <tr>
-            <td class="col-duration">21 Days</td>
-            <td class="col-price">₹18,000</td>
-            <td class="col-therapies">Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara, Abhyangam, Hot Stone (heat relaxation therapy)</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="pricing-scroll">
+      <div class="pricing-scroll-inner">
+        <div class="head-strip">
+          <span>Duration</span>
+          <span>Price</span>
+          <span>Key Therapies Included</span>
+        </div>
+
+        <div class="body-panel">
+          <div class="data-row">
+            <div class="cell">3 Days</div>
+            <div class="cell">₹3,400</div>
+            <div class="cell">Full Body Massage + Steam, Mud Therapy</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">5 Days</div>
+            <div class="cell">₹5,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage (deep water massage)</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">7 Days</div>
+            <div class="cell">₹7,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage (deep water massage), Sauna (heat therapy)</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">10 Days</div>
+            <div class="cell">₹10,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara (oil drip relaxation)</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">14 Days</div>
+            <div class="cell">₹13,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara, Abhyangam (herbal oil massage)</div>
+          </div>
+          <div class="data-row">
+            <div class="cell">21 Days</div>
+            <div class="cell">₹18,000</div>
+            <div class="cell">Massage + Steam, Mud Therapy, Deluxe Underwater Massage, Sauna, Shirodhara, Abhyangam, Hot Stone (heat relaxation therapy)</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </body>
